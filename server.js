@@ -16,21 +16,24 @@ app.get("/",(req,res)=>{
 
 app.post("/shorten", async(req,res)=>{
   clicksCount++;
-  const originalUrl=req.body.originalUrl;
+  const originalUrl=req.body.LongUrl;
   const shortUrl = Math.random().toString(36).substring(2, 8); // Simple random string for short URL
   const newUrl = new ShortUrl({
     originalUrl: originalUrl,
     shortUrl: shortUrl,
-    clicks: clicksCount
+    clicks:clicksCount
   });
   try {
     await newUrl.save();
-    res.render("ShortenedPage", {  shortUrl: shortUrl, clicks: clicksCount });
+    res.render("FrontPage", {  shortUrl: shortUrl, clicks: clicksCount });
   } catch (error) {
     console.error("Error saving URL:", error);
     res.status(500).send("Internal Server Error");
   }
+  res.redirect("/");
 })
+
+
 
 
 
